@@ -9,7 +9,7 @@
 <br />
 <div align="center">
   <a href="https://www.elastic.co/es/elastic-stack">
-    <img src="https://static-www.elastic.co/v3/assets/bltefdd0b53724fa2ce/blt0090c6239e64faf8/62aa0980c949fd5059e8aebc/logo-stack-32-color.svg" alt="Logo" width="400" height="">
+    <img src="https://static-www.elastic.co/v3/assets/bltefdd0b53724fa2ce/blt0090c6239e64faf8/62aa0980c949fd5059e8aebc/logo-stack-32-color.svg" alt="Logo" width="200" height="">
   </a>
 
   <h3 align="center">Elastic stack</h3>
