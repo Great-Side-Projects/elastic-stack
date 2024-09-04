@@ -9,7 +9,7 @@
 <br />
 <div align="center">
   <a href="https://www.elastic.co/es/elastic-stack">
-    <img src="https://www.elastic.co/es" alt="Logo" width="400" height="">
+    <img src="https://static-www.elastic.co/v3/assets/bltefdd0b53724fa2ce/blt0090c6239e64faf8/62aa0980c949fd5059e8aebc/logo-stack-32-color.svg" alt="Logo" width="400" height="">
   </a>
 
   <h3 align="center">Elastic stack</h3>
@@ -60,7 +60,7 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-Kibada login
+Kibana login
 
 [![Product Name Screen Shot][product-screenshot-UI]](http://20.64.115.37:5601)
 [![Product Name Screen Shot2][product-screenshot-UI2]](http://20.64.115.37:5601)
@@ -122,7 +122,7 @@ This is an example of how to list things you need to use the software and how to
    ``` 
 3. find a .env file and set the environment variables for the elastic stack. 
 
-- [!IMPORTANT] mandatory variables for the elastic stack are the following:
+- `[!IMPORTANT]` mandatory variables for the elastic stack are the following:
   - `ELASTIC_USERNAME`=userelastic
   - `ELASTIC_PASSWORD`=pass
   - `ELASTICSEARCH_SERVICEACCOUNTTOKEN`=token (next step) 
@@ -160,7 +160,7 @@ This is an example of how to list things you need to use the software and how to
 4. Create the docker-compose with the following command
  
    ```sh
-    #if don't need logstash, you can comment the services in the elk-compose file. 
+    #if don't need logstash, you can comment the services in the elk-compose.yaml file. 
 
     docker compose -f elk-compose.yaml up
     ctrl + c to stop the docker-compose
