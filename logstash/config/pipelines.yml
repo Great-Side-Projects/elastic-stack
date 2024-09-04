@@ -1,0 +1,5 @@
+- pipeline.id: kafka-to-elasticsearch
+  path.config: "/usr/share/logstash/pipeline/kafka-to-elasticsearch.conf"
+
+- pipeline.id: mysql-to-elasticsearch
+  path.config: "/usr/share/logstash/pipeline/mysql-to-elasticsearch.conf"
