@@ -46,8 +46,8 @@ jobs:
         EOF
         
         # Transferir el archivos a la VM
-        scp -o StrictHostKeyChecking=no -i azure_vm_ssh_key -r logstash/config $AZURE_VM_USERNAME@$AZURE_VM_IP:elastic-stack/logstash/config
-        scp -o StrictHostKeyChecking=no -i azure_vm_ssh_key -r logstash/pipeline $AZURE_VM_USERNAME@$AZURE_VM_IP:elastic-stack/logstash/pipeline
+        scp -o StrictHostKeyChecking=no -i azure_vm_ssh_key -r logstash/config $AZURE_VM_USERNAME@$AZURE_VM_IP:elastic-stack/logstash
+        scp -o StrictHostKeyChecking=no -i azure_vm_ssh_key -r logstash/pipeline $AZURE_VM_USERNAME@$AZURE_VM_IP:elastic-stack/logstash
         
         # Transferir el archivo elk-compose.yaml a la VM
         scp -o StrictHostKeyChecking=no -i azure_vm_ssh_key -r elk-compose.yaml $AZURE_VM_USERNAME@$AZURE_VM_IP:elastic-stack
@@ -65,6 +65,8 @@ jobs:
           echo "KAFKA_PASSWORD=${{ secrets.KAFKA_PASSWORD }}" >> .env
           echo "ELASTICSEARCH_SERVICEACCOUNTTOKEN=${{ secrets.ELASTICSEARCH_SERVICEACCOUNTTOKEN }}" >> .env
           echo "MYSQL_HOST=${{ secrets.MYSQL_HOST }}" >> .env
+          
+          chmod 644 /logstash/config/pipelines.yml
           
           # Levantar los servicios con Docker Compose
           docker compose -f elk-compose.yaml stop
