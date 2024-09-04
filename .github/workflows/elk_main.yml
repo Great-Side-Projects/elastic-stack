@@ -36,6 +36,7 @@ jobs:
           sudo mkdir -p -m 777 elastic-stack/logstash/config/
           sudo mkdir -p -m 777 elastic-stack/logstash/pipeline/
           sudo chmod a+rwx elastic-stack
+          sudo chmod a+rwx elastic-stack/logstash
           echo "Installing etc folder in ${DIR}..."
           fi
           #sudo mv -f mysql-connector-j-9.0.0.jar elastic-stack/logstash/config/
@@ -66,7 +67,7 @@ jobs:
           echo "ELASTICSEARCH_SERVICEACCOUNTTOKEN=${{ secrets.ELASTICSEARCH_SERVICEACCOUNTTOKEN }}" >> .env
           echo "MYSQL_HOST=${{ secrets.MYSQL_HOST }}" >> .env
           
-          chmod 777 logstash/config/pipelines.yml logstash/config/mysql-connector-j-9.0.0.jar
+          sudo chmod 777 logstash/config/pipelines.yml logstash/config/mysql-connector-j-9.0.0.jar
 
           # Levantar los servicios con Docker Compose
           docker compose -f elk-compose.yaml stop
