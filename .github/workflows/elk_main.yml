@@ -67,7 +67,7 @@ jobs:
           echo "ELASTICSEARCH_SERVICEACCOUNTTOKEN=${{ secrets.ELASTICSEARCH_SERVICEACCOUNTTOKEN }}" >> .env
           echo "MYSQL_HOST=${{ secrets.MYSQL_HOST }}" >> .env
           
-          sudo chmod 777 logstash/config/pipelines.yml logstash/config/mysql-connector-j-9.0.0.jar
+          sudo chmod 777 logstash/config/pipelines.yml logstash/config/mysql-connector-j-9.0.0.jar .env
 
           # Levantar los servicios con Docker Compose
           docker compose -f elk-compose.yaml stop
