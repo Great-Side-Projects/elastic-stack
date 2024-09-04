@@ -24,17 +24,10 @@ jobs:
     - name: Deploy to Azure VM
       env:
         AZURE_VM_IP: ${{ secrets.AZURE_VM_IP }}
-        AZURE_VM_USERNAME: ${{ secrets.AZURE_VM_USERNAME }}
+        AZURE_VM_USERNAME: ${{ secrets.AZURE_VM_USERNAME }} 
         
       run: |
        
-        # Transferir el archivos a la VM
-        scp -o StrictHostKeyChecking=no -i azure_vm_ssh_key -r logstash/config/ $AZURE_VM_USERNAME@$AZURE_VM_IP:
-        scp -o StrictHostKeyChecking=no -i azure_vm_ssh_key -r logstash/pipeline/ $AZURE_VM_USERNAME@$AZURE_VM_IP:
-        
-        # Transferir el archivo elk-compose.yaml a la VM
-        scp -o StrictHostKeyChecking=no -i azure_vm_ssh_key -r elk-compose.yaml $AZURE_VM_USERNAME@$AZURE_VM_IP:
-        
         # Conectar y crear la carpeta /elastic-stack si no existe
         ssh -o StrictHostKeyChecking=no -i azure_vm_ssh_key $AZURE_VM_USERNAME@$AZURE_VM_IP << 'EOF'
         
@@ -42,15 +35,23 @@ jobs:
           if [ ! -d "$DIR" ]; then
           sudo mkdir -p -m 777 elastic-stack/logstash/config/
           sudo mkdir -p -m 777 elastic-stack/logstash/pipeline/
+          sudo chmod a+rwx elastic-stack
           echo "Installing etc folder in ${DIR}..."
           fi
-          sudo mv -f mysql-connector-j-9.0.0.jar elastic-stack/logstash/config/
-          sudo mv -f pipelines.yml elastic-stack/logstash/config/
-          sudo mv -f kafka-to-elasticsearch.conf elastic-stack/logstash/pipeline/
-          sudo mv -f mysql-to-elasticsearch.conf elastic-stack/logstash/pipeline/
-          sudo mv -f elk-compose.yaml elastic-stack/
+          #sudo mv -f mysql-connector-j-9.0.0.jar elastic-stack/logstash/config/
+          #sudo mv -f pipelines.yml elastic-stack/logstash/config/
+          #sudo mv -f kafka-to-elasticsearch.conf elastic-stack/logstash/pipeline/
+          #sudo mv -f mysql-to-elasticsearch.conf elastic-stack/logstash/pipeline/
+          #sudo mv -f elk-compose.yaml elastic-stack/
         EOF
-                
+        
+        # Transferir el archivos a la VM
+        scp -o StrictHostKeyChecking=no -i azure_vm_ssh_key -r logstash/config $AZURE_VM_USERNAME@$AZURE_VM_IP:elastic-stack/logstash/config
+        scp -o StrictHostKeyChecking=no -i azure_vm_ssh_key -r logstash/pipeline $AZURE_VM_USERNAME@$AZURE_VM_IP:elastic-stack/logstash/pipeline
+        
+        # Transferir el archivo elk-compose.yaml a la VM
+        scp -o StrictHostKeyChecking=no -i azure_vm_ssh_key -r elk-compose.yaml $AZURE_VM_USERNAME@$AZURE_VM_IP:elastic-stack
+                        
         # Conectar y ejecutar comandos en la VM
         ssh -o StrictHostKeyChecking=no -i azure_vm_ssh_key $AZURE_VM_USERNAME@$AZURE_VM_IP << 'EOF'
 
