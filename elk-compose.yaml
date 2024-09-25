@@ -25,6 +25,7 @@ services:
       - ELASTICSEARCH_SERVICEACCOUNTTOKEN=${ELASTICSEARCH_SERVICEACCOUNTTOKEN}
     depends_on:
       - elasticsearch
+    restart: unless-stopped
 
   logstash:
     image: docker.elastic.co/logstash/logstash:8.15.0
