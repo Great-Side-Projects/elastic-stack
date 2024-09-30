@@ -83,7 +83,7 @@ This project is built with the following technologies:
 
 * [![Docker][DockerImage]](https://www.docker.com/)
 * [![VM][AzureVM]](https://azure.microsoft.com/es-es/services/virtual-machines/)
-
+* [![Telebit Cloud](https://img.shields.io/badge/Telebit%20Cloud-005571?style=for-the-badge&logo=telebit&logoColor=white)](https://telebit.cloud/)
 
 ### Architecture design
 
@@ -109,6 +109,7 @@ This is an example of how to list things you need to use the software and how to
 * Docker
 * Docker-compose
 * if you are in a VM, you need to open the port 5601 a public access to kibana.
+* Telebit Cloud for the public access to the kibana. 
 
 ### Installation
 
@@ -171,8 +172,88 @@ This is an example of how to list things you need to use the software and how to
      ELASTIC_USERNAME: elastic #user for the elastic search, default user is "elastic"
      ELASTIC_PASSWORD: pass #password for the elastic search.
     ```
-7. Enjoy!
+7. if you need to expose in https with a public domain, you can use Telebit Cloud. 
+   - https://telebit.cloud/
+    ```sh
+    #install telebit
+    export TELEBIT_USERSPACE=no #install as a system service (launchd, systemd only)
+    curl https://get.telebit.io | bash
+    # register in telebit
+    # email is needed to register in telebit
+    
+    ...
+    #activate the telebit service --just in case you have installed as a system service
+    ~/telebit activate --system-launcher
+    #run telebit to expose the port 5601
+    ~/telebit http 5601
+    
+    #or run telebit in subdomain
+    telebit http 5601 {subdomain}
+    ej: telebit http 5601 kibana
 
+    # telebit status
+    ~/telebit status
+
+    #get the public domain ej: 
+    https://kibana.wise-moth-21.telebit.io/
+    ```
+8. **optional:** if you have problem with reboot the VM and the telebit service is not running, you can to create and enable the Telebit service with systemd
+    
+    Create a service file in `/etc/systemd/system/telebit.service` with the following content:
+    ```sh
+    # create the service file
+    sudo nano /etc/systemd/system/telebit.service
+    ```
+    copy and paste the following content in the file:
+    ```ini
+    [Unit]
+    Description=Telebit Daemon
+    After=network.target
+
+    [Service]
+    ExecStart=/yourpath/Applications/telebit/bin/telebit daemon --config /home/azureuser/.config/telebit/telebit.yml
+    Restart=always
+    User=youruser
+    WorkingDirectory=/yourworkingpath/
+
+    [Install]
+    WantedBy=multi-user.target
+    ```
+    Reload systemd services:
+    ```sh
+    sudo systemctl daemon-reload
+    ```
+    Enable the service to start at boot:
+    ```sh
+    sudo systemctl enable telebit
+    ```
+    Start the Telebit service:
+    ```sh
+    sudo systemctl start telebit
+    ```
+    Check the status of the service:
+    ```sh
+    sudo systemctl status telebit
+
+    ...
+    Loaded: loaded (/etc/systemd/system/telebit.service; enabled; vendor preset: enabled)
+     Active: active (running) since Mon 2024-09-23 20:52:09 UTC; 8s ago
+   Main PID: 108934 (telebit)
+      Tasks: 12 (limit: 9458)
+     Memory: 17.5M
+        CPU: 250ms
+     CGroup: /system.slice/telebit.service
+             ├─108934 /bin/bash /home/azureuser/Applications/telebit/bin/telebit daemon --config /home/azureuser/.config/telebit/telebit.yml
+             └─108935 /home/azureuser/Applications/telebit/bin/node /home/azureuser/Applications/telebit/bin/telebit.js daemon --config /home>
+
+   Sep 23 20:52:09 vmubuntu systemd[1]: Started Telebit Daemon.
+   Sep 23 20:52:10 vmubuntu telebit[108935]: telebit daemon v0.20.8
+   Sep 23 20:52:10 vmubuntu telebit[108935]: [info] waiting for init/authentication (missing relay and/or token)
+    ```
+     
+10.  Enjoy!
+
+      
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
