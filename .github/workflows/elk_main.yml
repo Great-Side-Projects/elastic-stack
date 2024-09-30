@@ -64,6 +64,7 @@ jobs:
           echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env
           echo "ELASTIC_USERNAME=${{ secrets.ELASTIC_USERNAME }}" >> .env
           echo "ELASTIC_PASSWORD=${{ secrets.ELASTIC_PASSWORD }}" >> .env
+          echo "KAFKA_BOOTSTRAP_SERVERS=${{ secrets.KAFKA_BOOTSTRAP_SERVERS }}" >> .env
           echo "KAFKA_USERNAME=${{ secrets.KAFKA_USERNAME }}" >> .env
           echo "KAFKA_PASSWORD=${{ secrets.KAFKA_PASSWORD }}" >> .env
           echo "ELASTICSEARCH_SERVICEACCOUNTTOKEN=${{ secrets.ELASTICSEARCH_SERVICEACCOUNTTOKEN }}" >> .env
